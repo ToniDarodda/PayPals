@@ -4,13 +4,13 @@ import { DataSource } from 'typeorm';
 
 dotenv.config();
 
-const { TYPE, HOST, PORT, USERNAME, PASSWORD, DATABASE } = process.env;
+const { TYPE, HOST, DB_PORT, DB_USERNAME, PASSWORD, DATABASE } = process.env;
 
 export const config: DataSourceOptions = {
   type: TYPE,
   host: HOST,
-  port: PORT,
-  username: USERNAME,
+  port: DB_PORT,
+  username: DB_USERNAME,
   password: PASSWORD,
   database: DATABASE,
   entities: ['dist/**/*entity.js'],
