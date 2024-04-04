@@ -5,16 +5,22 @@ import { UserCreateDTO } from '../dto/create';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
-    @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
   async createUser(elementsUser: UserCreateDTO): Promise<User> {
     try {
-      return this.usersRepository.save(
-        this.usersRepository.create(elementsUser),
-      );
+      return this.userRepository.save(this.userRepository.create(elementsUser));
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async getUserById(userId: string): Promise<User> {
+    try {
+      return await this.userRepository.findOne({ where: { id: userId } });
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }

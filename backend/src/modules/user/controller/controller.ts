@@ -1,5 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { UsersService } from '../service/service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { UserService } from '../service/service';
 import { User } from '../../../entities/user/entity';
 import {
   ApiBadRequestResponse,
@@ -11,7 +11,7 @@ import { UserCreateDTO } from '../dto/create';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   @ApiBody({ type: UserCreateDTO })
@@ -20,5 +20,13 @@ export class UserController {
   @ApiConflictResponse({ description: 'User already exist' })
   createUser(@Body() elementsUser: UserCreateDTO): Promise<User> {
     return this.userService.createUser(elementsUser);
+  }
+
+  @Get()
+  @ApiCreatedResponse({ description: 'Success' })
+  @ApiBadRequestResponse({ description: 'Error to handle the request' })
+  @ApiConflictResponse({ description: 'User already exist' })
+  getUserById(@Param('userId') userId: string): Promise<User> {
+    return this.userService.getUserById(userId);
   }
 }

@@ -4,8 +4,9 @@ import { UserModule } from './modules/user/module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from './ormconfig';
 import { ConfigModule } from '@nestjs/config';
+import { TriModule } from './modules/tri/module';
 
-const modules = [UserModule];
+const modules = [UserModule, TriModule];
 
 @Module({
   imports: [TypeOrmModule.forRoot(config), ConfigModule.forRoot(), ...modules],
